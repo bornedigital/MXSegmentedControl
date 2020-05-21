@@ -459,12 +459,14 @@ extension MXSegmentedControl {
     public func select(index: Int, animated: Bool) {
         selectedIndex = index
         
-        UIView.animate(withDuration: animated ? animation.duration : 0,
-                       delay: animation.delay,
-                       usingSpringWithDamping: animation.dampingRatio,
-                       initialSpringVelocity: animation.velocity,
-                       options: animation.options,
-                       animations: { self.progress = CGFloat(index) })
+//        UIView.animate(withDuration: animated ? animation.duration : 0,
+//                       delay: animation.delay,
+//                       usingSpringWithDamping: animation.dampingRatio,
+//                       initialSpringVelocity: animation.velocity,
+//                       options: animation.options,
+//                       animations: { self.progress = CGFloat(index) })
+        
+        self.progress = CGFloat(index)
         
         if let scrollView = scrollView {
             var contentOffset = scrollView.contentOffset
