@@ -116,11 +116,16 @@ open class MXSegmentedControl: UIControl {
         didSet { layoutIndicator() }
     }
     
+    private var _selectedIndex: Int = 0
     /// The currently selected segment index.
     public private(set) var selectedIndex: Int = 0 {
-        willSet { contentView.segments[selectedIndex].isSelected = false }
+        willSet {
+//            contentView.segments[selectedIndex].isSelected = false
+            contentView.segments[_selectedIndex].isSelected = false
+        }
         didSet {
             sendActions(for: .valueChanged)
+            _selectedIndex = selectedIndex
             contentView.segments[selectedIndex].isSelected = true
         }
     }
