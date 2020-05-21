@@ -109,7 +109,7 @@ open class MXSegmentedControl: UIControl {
     }
     
     /// The indicator animation description.
-    public var animation = Animation(duration: 0.25, delay: 0, dampingRatio: 1, velocity: 0, options: [.beginFromCurrentState, .allowUserInteraction])
+    public var animation = Animation(duration: 0, delay: 0, dampingRatio: 1, velocity: 0, options: [])
     
     /// The indicator progress.
     public var progress: CGFloat = 0 {
