@@ -109,23 +109,18 @@ open class MXSegmentedControl: UIControl {
     }
     
     /// The indicator animation description.
-    public var animation = Animation(duration: 0, delay: 0, dampingRatio: 1, velocity: 0, options: [])
+    public var animation = Animation(duration: 0.25, delay: 0, dampingRatio: 1, velocity: 0, options: [.beginFromCurrentState, .allowUserInteraction])
     
     /// The indicator progress.
     public var progress: CGFloat = 0 {
         didSet { layoutIndicator() }
     }
     
-    private var _selectedIndex: Int = 0
     /// The currently selected segment index.
     public private(set) var selectedIndex: Int = 0 {
-        willSet {
-//            contentView.segments[selectedIndex].isSelected = false
-            contentView.segments[_selectedIndex].isSelected = false
-        }
+        willSet { contentView.segments[selectedIndex].isSelected = false }
         didSet {
             sendActions(for: .valueChanged)
-            _selectedIndex = selectedIndex
             contentView.segments[selectedIndex].isSelected = true
         }
     }
@@ -406,8 +401,8 @@ extension MXSegmentedControl {
     }
     
     @objc private func select(segment: MXSegment) {
-        if let index = contentView.segments.index(of: segment) {
-            select(index: index, animated: false)
+        if let index = contentView.segments.firstIndex(of: segment) {
+            select(index: index, animated: true)
         }
     }
     
@@ -464,14 +459,12 @@ extension MXSegmentedControl {
     public func select(index: Int, animated: Bool) {
         selectedIndex = index
         
-//        UIView.animate(withDuration: animated ? animation.duration : 0,
-//                       delay: animation.delay,
-//                       usingSpringWithDamping: animation.dampingRatio,
-//                       initialSpringVelocity: animation.velocity,
-//                       options: animation.options,
-//                       animations: { self.progress = CGFloat(index) })
-        
-        self.progress = CGFloat(index)
+        UIView.animate(withDuration: animated ? animation.duration : 0,
+                       delay: animation.delay,
+                       usingSpringWithDamping: animation.dampingRatio,
+                       initialSpringVelocity: animation.velocity,
+                       options: animation.options,
+                       animations: { self.progress = CGFloat(index) })
         
         if let scrollView = scrollView {
             var contentOffset = scrollView.contentOffset
@@ -512,7 +505,7 @@ extension MXSegmentedControl {
         }
         
         func remove(_ segment: MXSegment) {
-            guard var index = segments.index(of: segment) else {
+            guard var index = segments.firstIndex(of: segment) else {
                 return
             }
             
