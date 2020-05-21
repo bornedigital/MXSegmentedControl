@@ -402,7 +402,7 @@ extension MXSegmentedControl {
     
     @objc private func select(segment: MXSegment) {
         if let index = contentView.segments.index(of: segment) {
-            select(index: index, animated: true)
+            select(index: index, animated: false)
         }
     }
     
